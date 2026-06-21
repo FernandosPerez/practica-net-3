@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("leccion-03-jwt")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+55ac0dcf329a141864de634d7f55b48ca90874d5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+60f45652a4224563062ee18fe081152e4cae9c93")]
 [assembly: System.Reflection.AssemblyProductAttribute("leccion-03-jwt")]
 [assembly: System.Reflection.AssemblyTitleAttribute("leccion-03-jwt")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

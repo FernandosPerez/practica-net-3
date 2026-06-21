@@ -1,8 +1,12 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using leccion_03_jwt.DTOs;
 using leccion_03_jwt.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace leccion_03_jwt.Controllers.Auth{
     
@@ -59,7 +63,8 @@ namespace leccion_03_jwt.Controllers.Auth{
                     return Unauthorized(new { Message = "Credenciales incorrectas." });
                 }
 
-                return Ok("login correcto");
+                var token = GenerarToken(usuario.Email, usuario.Id);
+                return Ok(new { Token = token});
             }
             catch
             {
@@ -67,6 +72,39 @@ namespace leccion_03_jwt.Controllers.Auth{
             }
 
         } 
+
+        //metodo privado poorque no se debe acceder por ningun endpoint esta funcion ya que es la que procesa y encripta los datos de manera interna
+         private string GenerarToken (string email, string usuarioId)
+        {
+              // 1. Definir los Claims (Información del usuario que viajará en el token)
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, usuarioId),
+                new Claim(JwtRegisteredClaimNames.Email, email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // ID único del token
+                new Claim(ClaimTypes.Role, "Usuario") // Rol opcional
+            };
+
+            // 2. Obtener la clave secreta (Debe venir de tu appsettings.json y ser larga)
+            var claveSecreta = _config["Jwt:Key"];
+            var llaveSimetrica = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(claveSecreta));
+            
+            // 3. Configurar las credenciales de firma (Algoritmo de encriptación)
+            var credenciales = new SigningCredentials(llaveSimetrica, SecurityAlgorithms.HmacSha256);
+
+            // 4. Crear el JwtSecurityToken
+            var tokenDescriptor = new JwtSecurityToken(
+                issuer: _config["Jwt:Issuer"],                 // Quién emite el token
+                audience: _config["Jwt:Audience"],                 // Para quién está destinado
+                claims: claims,                           // Los datos del usuario
+                expires: DateTime.UtcNow.AddHours(2),     // Tiempo de vida del token
+                signingCredentials: credenciales          // Firma de seguridad
+            );
+
+            // 5. Serializar el token a una cadena de texto (String)
+            return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
+
+        }
     }
     
 }

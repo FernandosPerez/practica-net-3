@@ -142,3 +142,4 @@ C:\Proyectos\claude\Leccion3\obj\Debug\net9.0\refint\leccion-03-jwt.dll
 C:\Proyectos\claude\Leccion3\obj\Debug\net9.0\leccion-03-jwt.pdb
 C:\Proyectos\claude\Leccion3\obj\Debug\net9.0\leccion-03-jwt.genruntimeconfig.cache
 C:\Proyectos\claude\Leccion3\obj\Debug\net9.0\ref\leccion-03-jwt.dll
+C:\Proyectos\claude\Leccion3\bin\Debug\net9.0\Microsoft.Bcl.Cryptography.dll
